@@ -44,4 +44,4 @@ jobs:
           rm -rf ./cloudflare-worker-frontend/public/**
           cp -r ./.next/. ./cloudflare-worker-frontend/public/
           cd ./cloudflare-worker-frontend
-          sudo yarn run publish
+          yarn run publish
