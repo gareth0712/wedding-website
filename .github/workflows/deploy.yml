@@ -38,10 +38,10 @@ jobs:
         env:
           CLOUDFLARE_WORKER_NAME: 'wedding'
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          DOMAIN: 'www.funglydiawedding.com'
+          DOMAIN: 'funglydiawedding.com'
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
           rm -rf ./cloudflare-worker-frontend/public/**
           cp -r ./.next/. ./cloudflare-worker-frontend/public/
           cd ./cloudflare-worker-frontend
-          npm run publish
+          yarn publish
