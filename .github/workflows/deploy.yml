@@ -42,6 +42,6 @@ jobs:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
           rm -rf ./cloudflare-worker-frontend/public/**
-          cp -r ./dist/. ./cloudflare-worker-frontend/public/
+          cp -r ./.next/. ./cloudflare-worker-frontend/public/
           cd ./cloudflare-worker-frontend
           npm run publish
