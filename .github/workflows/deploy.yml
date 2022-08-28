@@ -1,0 +1,43 @@
+name: Deploy website
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Source Code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Clone Workers Site Template
+        run: |
+          git clone https://github.com/gareth0712/cloudflare-worker-frontend.git
+
+      - name: Install Template Dependencies
+        run: |
+          cd ./cloudflare-worker-frontend
+          yarn install
+
+      - name: Authenticate with Cloudflare
+        run: |
+          cd ./cloudflare-worker-frontend
+          echo "${{ secrets.CLOUDFLARE_API_TOKEN }}" | npx wrangler config
+      - name: Publish Workers Site
+        env:
+          CLOUDFLARE_WORKER_NAME: 'wedding'
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DOMAIN: 'www.funglydiawedding.com'
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          rm -rf ./cloudflare-worker-frontend/public/**
+          cp -r ./dist/. ./cloudflare-worker-frontend/public/
+          cd ./cloudflare-worker-frontend
+          npm run publish
